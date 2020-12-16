@@ -6,7 +6,7 @@ var counter = 0
 
 fun main(args: Array<String>) {
 
-    // This works, but probably just because "counter ++" is such a quick operation
+    // This works, since "counter ++" is such a quick operation
     // But... Since we depend on time precision and not number of operations this looks like the best way to go
 
     val scheduledEx = Executors.newScheduledThreadPool(5)
