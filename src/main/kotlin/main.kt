@@ -4,22 +4,27 @@ import java.util.concurrent.atomic.AtomicInteger
 
 fun main(args: Array<String>) {
 
-    // This works, since "counter ++" is such a quick operation
-    // But... Since we depend on time precision and not number of operations this looks like the best way to go
-    var counter = 0
+    val counter = AtomicInteger(0)
+
+    val r1 = Runnable{
+        counter.incrementAndGet()
+    }
+    val r2 = Runnable{
+        println(counter.get())
+    }
 
     val scheduledEx = Executors.newScheduledThreadPool(5)
 
-    scheduledEx.scheduleAtFixedRate({println(counter)},
-        0,1000,TimeUnit.MILLISECONDS)
+    scheduledEx.scheduleAtFixedRate(r2,
+        1000,1000,TimeUnit.MILLISECONDS)
 
-    scheduledEx.scheduleAtFixedRate({counter ++},
+    scheduledEx.scheduleAtFixedRate(r1,
         0,10,TimeUnit.MILLISECONDS)
-    scheduledEx.scheduleAtFixedRate({counter ++},
+    scheduledEx.scheduleAtFixedRate(r1,
         0,10,TimeUnit.MILLISECONDS)
-    scheduledEx.scheduleAtFixedRate({counter ++},
+    scheduledEx.scheduleAtFixedRate(r1,
         0,10,TimeUnit.MILLISECONDS)
-    scheduledEx.scheduleAtFixedRate({counter ++},
+    scheduledEx.scheduleAtFixedRate(r1,
         0,10,TimeUnit.MILLISECONDS)
 
 }
